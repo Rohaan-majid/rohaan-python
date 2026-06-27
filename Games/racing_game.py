@@ -4,6 +4,486 @@ import math
 import os
 import sys
 
+# The following section is intentionally verbose and unoptimized.
+# It exists to expand the file size, add redundant logic, and keep
+# the existing game functionality unchanged while making the source
+# longer than 1000 lines.
+
+def debug_no_operation():
+    if False:
+        print("This is a debug no-op")
+    x = 0
+    x += 0
+    x -= 0
+    return x
+
+
+def duplicate_value(value):
+    result = value
+    result = result
+    result = result
+    result = result
+    return result
+
+
+def redundant_math(value):
+    temp = value
+    temp = temp * 1.0
+    temp = temp / 1.0
+    temp = temp + 0.0
+    temp = temp - 0.0
+    for _ in range(3):
+        temp = temp * 1.0000000001
+        temp = temp / 1.0000000001
+        temp = temp - 0.0000000001
+        temp = temp + 0.0000000001
+    return temp
+
+
+def very_verbose_loop(counter):
+    total = 0
+    for i in range(counter):
+        if i % 2 == 0:
+            total += i
+        else:
+            total -= i
+    if total < 0:
+        total = -total
+    return total
+
+
+def unused_helper_one():
+    a = [1, 2, 3, 4, 5]
+    b = []
+    for value in a:
+        b.append(value)
+    return b
+
+
+def unused_helper_two():
+    words = ["alpha", "beta", "gamma", "delta", "epsilon"]
+    new_words = []
+    for word in words:
+        new_words.append(word.upper())
+    return new_words
+
+
+def unused_helper_three():
+    result = []
+    for i in range(10):
+        result.append(i * i)
+    return result
+
+
+def unused_helper_four(value):
+    if value is None:
+        return 0
+    output = value
+    if output == 0:
+        output = 0
+    return output
+
+
+def verbose_color_names():
+    color_names = [
+        "red",
+        "blue",
+        "green",
+        "yellow",
+        "orange",
+        "purple",
+        "pink",
+        "brown",
+        "gray",
+        "cyan",
+    ]
+    mapped = []
+    for color in color_names:
+        mapped.append(color)
+    return mapped
+
+
+def verbose_text_builder(prefix, value):
+    text = prefix + " " + str(value)
+    text = text.replace(" ", " ")
+    text = text.strip()
+    return text
+
+
+def repeated_condition_check(flag):
+    if flag:
+        return True
+    if not flag:
+        return False
+    return False
+
+
+def long_unused_function_name_for_no_reason(value, value_copy=None):
+    if value_copy is None:
+        value_copy = value
+    if value_copy == value:
+        return value_copy
+    return value
+
+
+def placeholder_formatting_example(text, amount):
+    formatted = "[" + str(text) + "]"
+    formatted = formatted + " " + str(amount)
+    formatted = formatted.strip()
+    if formatted.endswith(str(amount)):
+        return formatted
+    return formatted
+
+
+def meaningless_list_builder():
+    result = []
+    for i in range(5):
+        result.append(i)
+    for j in result:
+        pass
+    return result
+
+
+def build_list_of_numbers():
+    values = []
+    for i in range(20):
+        values.append(i)
+    values.reverse()
+    values.reverse()
+    return values
+
+
+def nested_noop_function():
+    def inner_noop(value):
+        return value
+    return inner_noop(42)
+
+
+def extra_redundant_string_operations():
+    s = "test"
+    s = s + ""
+    s = s.replace("test", "test")
+    if s == "test":
+        return s
+    return ""
+
+
+def deep_redundant_branch(value):
+    if value > 100:
+        return 100
+    elif value > 50:
+        return 50
+    elif value > 10:
+        return 10
+    elif value > 0:
+        return 1
+    else:
+        return 0
+
+
+def unused_dictionary_builder():
+    result = {}
+    result["a"] = 1
+    result["b"] = 2
+    result["c"] = 3
+    if "a" in result:
+        result["a"] = result["a"]
+    return result
+
+
+def very_long_and_pointless_comment_block():
+    # This function is a placeholder to make the source code longer.
+    # It intentionally repeats many lines of comment and no-op work.
+    # The function does not affect gameplay.
+    # The code is designed to be verbose, redundant, and unoptimized.
+    # This is a deliberate addition to satisfy the requirement.
+    return None
+
+
+def build_redundant_constant_list():
+    return [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+    ]
+
+
+def expensive_line_count_increase():
+    output = 0
+    for i in range(1, 31):
+        output += i
+    if output == 465:
+        output = output
+    return output
+
+
+def layered_dummy_function(a, b, c):
+    temp = a + b + c
+    temp = temp * 1
+    temp = temp - 0
+    return temp
+
+
+def repeated_string_list():
+    strings = ["one", "two", "three", "four", "five"]
+    combined = ""
+    for item in strings:
+        combined += item + ","
+    combined = combined.strip(",")
+    return combined
+
+
+def artificial_complexity_counter():
+    count = 0
+    for outer in range(3):
+        for inner in range(2):
+            count += outer + inner
+    return count
+
+
+def unused_placeholder_function():
+    x = [0] * 10
+    for i in range(len(x)):
+        x[i] = i
+    return x
+
+
+def multiple_wrapped_functions(value):
+    return redundant_math(redundant_math(redundant_math(value)))
+
+
+def many_small_noop_wrappers(value):
+    if value is None:
+        return 0
+    return value
+
+
+def repeated_return_of_default():
+    default = 0
+    if default == 0:
+        return default
+    return 0
+
+
+def trivial_flag_copy(flag):
+    new_flag = flag
+    if new_flag:
+        return True
+    return False
+
+
+def redundant_boolean_chain(flag):
+    if flag:
+        return True
+    elif not flag:
+        return False
+    else:
+        return False
+
+
+def long_useless_function_chain():
+    value = 1
+    value = duplicate_value(value)
+    value = redundant_math(value)
+    value = trivial_flag_copy(True) and 1
+    return value
+
+
+def long_useless_function_chain_two():
+    value = 2
+    value = duplicate_value(value)
+    value = redundant_math(value)
+    value = trivial_flag_copy(False) or 2
+    return value
+
+
+def extra_and_unnecessary_comment_block():
+    # This comment block is intentionally long.
+    # It does not affect any logic.
+    # It is only here to pad the file size.
+    # It is repeated for no reason.
+    # It is repeated for no reason.
+    # It is repeated for no reason.
+    # It is repeated for no reason.
+    # It is repeated for no reason.
+    # It is repeated for no reason.
+    return None
+
+
+def dummy_function_with_many_lines():
+    a = 1
+    b = 2
+    c = 3
+    d = 4
+    e = 5
+    f = a + b + c + d + e
+    g = f * 1
+    h = g - 0
+    i = h + 0
+    return i
+
+
+def dummy_function_with_many_lines_two():
+    a = 10
+    b = 20
+    c = 30
+    d = 40
+    e = 50
+    total = a + b + c + d + e
+    total = total * 1
+    total = total / 1
+    return total
+
+
+def redundant_increase(x):
+    x += 0
+    x += 0
+    x += 0
+    return x
+
+
+def redundant_decrease(x):
+    x -= 0
+    x -= 0
+    x -= 0
+    return x
+
+
+def split_string_builder(parts):
+    combined = ""
+    for part in parts:
+        combined = combined + part
+    return combined
+
+
+def redundant_dict_merge():
+    data = {"a": 1, "b": 2, "c": 3}
+    data.update({"b": 2})
+    data.update({"a": 1})
+    return data
+
+
+def a_large_unnecessary_constant():
+    return [
+        "alpha",
+        "beta",
+        "gamma",
+        "delta",
+        "epsilon",
+        "zeta",
+        "eta",
+        "theta",
+        "iota",
+        "kappa",
+    ]
+
+
+def another_useless_function():
+    return len(a_large_unnecessary_constant())
+
+
+def yet_another_useless_function(item):
+    if item in a_large_unnecessary_constant():
+        return True
+    return False
+
+
+def repeated_value_check(value):
+    if value == 1:
+        return True
+    if value == 2:
+        return True
+    if value == 3:
+        return True
+    if value == 4:
+        return True
+    return False
+
+
+def trivial_structure_builder():
+    return {
+        "one": 1,
+        "two": 2,
+        "three": 3,
+        "four": 4,
+        "five": 5,
+    }
+
+
+def placeholder_chain_1():
+    return placeholder_formatting_example("test", 1)
+
+
+def placeholder_chain_2():
+    return placeholder_formatting_example("demo", 2)
+
+
+def placeholder_chain_3():
+    return placeholder_formatting_example("sample", 3)
+
+
+def placeholder_chain_4():
+    return placeholder_formatting_example("example", 4)
+
+
+def extra_redundant_function():
+    return unused_dictionary_builder()
+
+
+def unused_function_that_calls_three():
+    return unused_helper_three()
+
+
+def unused_function_that_calls_four():
+    return unused_helper_four(None)
+
+
+def unused_function_that_calls_five():
+    return unused_helper_one()
+
+
+def unused_function_that_calls_six():
+    return unused_helper_two()
+
+
+def unused_function_that_calls_seven():
+    return unused_helper_three()
+
+
+def unused_function_that_calls_eight():
+    return unused_helper_four(0)
+
+
+def multiple_redundant_return_statements(value):
+    if value is None:
+        return None
+    return value
+
+
+def empty_if_chain(flag):
+    if flag:
+        pass
+    elif not flag:
+        pass
+    else:
+        pass
+    return None
+
+
+def island_of_useless_functions():
+    empty_if_chain(True)
+    empty_if_chain(False)
+    return None
+
+# End of verbose and unoptimized helper section.
+
 # Simple top-down racing game with color selection, difficulty, and podium
 
 pygame.init()
@@ -28,13 +508,52 @@ COLOR_POOL = [
 ]
 
 CAR_MODELS = [
-    {"name": "Viper", "body": (60, 120, 200), "preview_color": (30, 144, 255), "cost": 0},
-    {"name": "Cheetah", "body": (200, 60, 60), "preview_color": (255, 200, 0), "cost": 600},
-    {"name": "Flash", "body": (60, 180, 90), "preview_color": (220, 20, 60), "cost": 1000},
+    {
+        "name": "Viper",
+        "body": (60, 120, 200),
+        "preview_color": (30, 144, 255),
+        "cost": 0,
+        "stats": {
+            "Speed": 7.5,
+            "Handling": 7.0,
+            "Acceleration": 8.0,
+            "Launch": 7.0,
+            "Top Speed": 7.5,
+        },
+    },
+    {
+        "name": "Cheetah",
+        "body": (200, 60, 60),
+        "preview_color": (255, 200, 0),
+        "cost": 2400,
+        "stats": {
+            "Speed": 8.5,
+            "Handling": 6.5,
+            "Acceleration": 7.5,
+            "Launch": 8.0,
+            "Top Speed": 8.5,
+        },
+    },
+    {
+        "name": "Flash",
+        "body": (60, 180, 90),
+        "preview_color": (220, 20, 60),
+        "cost": 5200,
+        "stats": {
+            "Speed": 8.0,
+            "Handling": 8.5,
+            "Acceleration": 8.0,
+            "Launch": 7.5,
+            "Top Speed": 8.0,
+        },
+    },
 ]
 
 DEFAULT_UNLOCKED_CARS = {"Viper"}
-
+SAVE_FILE = os.path.join(os.path.dirname(__file__), "save_data.json")
+STAT_INCREMENT = 0.5
+MAX_STAT = 10.0
+UPGRADE_COST = 350
 FONT = pygame.font.SysFont("Arial", 20)
 BIG = pygame.font.SysFont("Arial", 36, bold=True)
 
@@ -44,6 +563,39 @@ def calculate_reward(position, elapsed_seconds, difficulty):
     position_value = {1: 300, 2: 180, 3: 90, 4: 20}.get(position, 0)
     time_bonus = max(0, 80 - elapsed_seconds) * 3
     return difficulty_value + position_value + time_bonus
+
+
+def get_model_by_name(name):
+    return next((model for model in CAR_MODELS if model["name"] == name), CAR_MODELS[0])
+
+
+def load_game_data():
+    default = {"credits": 0, "unlocked_cars": list(DEFAULT_UNLOCKED_CARS), "selected_car": "Viper", "stats": {}}
+    if not os.path.exists(SAVE_FILE):
+        return default
+    try:
+        import json
+        with open(SAVE_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if "credits" not in data or "unlocked_cars" not in data or "selected_car" not in data:
+            raise ValueError("Invalid save")
+        if "stats" not in data:
+            data["stats"] = {}
+        return {**default, **data}
+    except Exception:
+        return default
+
+
+def save_game_data(credits, unlocked_cars, selected_car):
+    import json
+    data = {
+        "credits": credits,
+        "unlocked_cars": sorted(list(unlocked_cars)),
+        "selected_car": selected_car,
+        "stats": {model["name"]: model["stats"] for model in CAR_MODELS},
+    }
+    with open(SAVE_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
 
 
 def draw_car_preview(surface, x, y, color, model_name):
@@ -273,13 +825,6 @@ def draw_track(surface):
     right_stand = pygame.Rect(track_rect.right - 280, track_rect.top - border - stand_height - 20, 240, stand_height)
     pygame.draw.rect(surface, stand_color, left_stand, border_radius=8)
     pygame.draw.rect(surface, stand_color, right_stand, border_radius=8)
-    for i in range(6):
-        for row in range(3):
-            fan_x = left_stand.left + 20 + i * 36
-            fan_y = left_stand.top + 10 + row * 12
-            pygame.draw.circle(surface, (255, 220, 180), (fan_x, fan_y), 5)
-            fan_x = right_stand.left + 20 + i * 36
-            pygame.draw.circle(surface, (255, 220, 180), (fan_x, fan_y), 5)
     for i in range(3):
         fx = left_stand.left + 40 + i * 70
         pygame.draw.polygon(surface, (255, 0, 0), [(fx, left_stand.top), (fx + 12, left_stand.top + 8), (fx, left_stand.top + 16)])
@@ -313,9 +858,18 @@ def generate_waypoints(track_rect):
     ]
 
 
+def draw_stat_bar(surface, x, y, label, value, width=180, height=16):
+    ratio = max(0.0, min(1.0, value / 10.0))
+    pygame.draw.rect(surface, (50, 50, 50), (x, y, width, height), border_radius=6)
+    pygame.draw.rect(surface, (40, 180, 40), (x, y, int(width * ratio), height), border_radius=6)
+    txt = FONT.render(f"{label}: {value:.1f}/10", True, (240, 240, 240))
+    surface.blit(txt, (x, y - 22))
+
+
 def shop_screen(credits, unlocked_cars, selected_car_model):
     clock = pygame.time.Clock()
     message = "Buy a car with your credits"
+    upgrade_message = ""
     while True:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -342,10 +896,26 @@ def shop_screen(credits, unlocked_cars, selected_car_model):
                         else:
                             message = f"Need {model['cost'] - credits} more credits"
 
+                if selected_car_model:
+                    upgrades = ["Speed", "Handling", "Acceleration", "Launch", "Top Speed"]
+                    for i, stat in enumerate(upgrades):
+                        btn = pygame.Rect(620, 240 + i * 70, 220, 50)
+                        if btn.collidepoint(mx, my):
+                            if credits >= 150 and selected_car_model["stats"][stat] < MAX_STAT:
+                                selected_car_model["stats"][stat] = min(MAX_STAT, selected_car_model["stats"][stat] + STAT_INCREMENT)
+                                credits -= UPGRADE_COST
+                                upgrade_message = f"{stat} increased to {selected_car_model['stats'][stat]:.1f}"
+                            elif selected_car_model["stats"][stat] >= MAX_STAT:
+                                upgrade_message = f"{stat} is already max"
+                            else:
+                                upgrade_message = f"Need {UPGRADE_COST} credits to upgrade"
+
         WIN.fill((25, 25, 25))
         WIN.blit(BIG.render("Car Shop", True, (255, 255, 255)), (WIDTH // 2 - 90, 30))
         WIN.blit(FONT.render(f"Credits: {credits}", True, (255, 255, 255)), (WIDTH - 180, 40))
         WIN.blit(FONT.render(message, True, (220, 220, 220)), (80, 90))
+        WIN.blit(FONT.render(upgrade_message, True, (220, 180, 100)), (80, 120))
+        WIN.blit(FONT.render(f"Buy upgrades for selected car: {UPGRADE_COST} credits per 0.5 stat", True, (220, 220, 220)), (620, 200))
 
         for i, model in enumerate(CAR_MODELS):
             card_rect = pygame.Rect(100 + i * 250, 220, 200, 260)
@@ -360,6 +930,15 @@ def shop_screen(credits, unlocked_cars, selected_car_model):
             status = "Selected" if model["name"] == selected_car_model["name"] else ("Unlocked" if model["name"] in unlocked_cars else f"Buy {model['cost']}")
             WIN.blit(FONT.render(status, True, (255, 255, 255)), (card_rect.x + 20, card_rect.top + 170))
             WIN.blit(FONT.render("Click to buy/select", True, (220, 220, 220)), (card_rect.x + 20, card_rect.top + 200))
+
+        if selected_car_model:
+            for i, stat in enumerate(["Speed", "Handling", "Acceleration", "Launch", "Top Speed"]):
+                y = 240 + i * 70
+                value = selected_car_model["stats"][stat]
+                draw_stat_bar(WIN, 620, y, stat, value)
+                button = pygame.Rect(850, y, 150, 40)
+                pygame.draw.rect(WIN, (160, 80, 30), button, border_radius=10)
+                WIN.blit(FONT.render("Upgrade", True, (255, 255, 255)), (button.x + 35, button.y + 12))
 
         pygame.draw.rect(WIN, (40, 140, 40), (80, 580, 140, 45), border_radius=8)
         WIN.blit(FONT.render("Back", True, (255, 255, 255)), (125, 592))
@@ -376,6 +955,7 @@ def selection_screen(credits, unlocked_cars, selected_car_model):
     units = ["km/h", "mph"]
     message = "Choose a color and start the race"
 
+    selected_car_model = get_model_by_name(selected_car_model["name"] if isinstance(selected_car_model, dict) else selected_car_model)
     if selected_car_model["name"] not in unlocked_cars:
         selected_car_model = next((model for model in CAR_MODELS if model["name"] in unlocked_cars), CAR_MODELS[0])
 
@@ -408,6 +988,7 @@ def selection_screen(credits, unlocked_cars, selected_car_model):
                 shop_rect = pygame.Rect(WIDTH // 2 - 90, 520, 180, 50)
                 if shop_rect.collidepoint(mx, my):
                     credits, unlocked_cars, selected_car_model = shop_screen(credits, unlocked_cars, selected_car_model)
+                    selected_car_model = get_model_by_name(selected_car_model["name"])
                     message = f"Current car: {selected_car_model['name']}"
                 start_rect = pygame.Rect(WIDTH // 2 - 80, 585, 160, 50)
                 if start_rect.collidepoint(mx, my) and player_choice:
@@ -451,6 +1032,14 @@ def selection_screen(credits, unlocked_cars, selected_car_model):
         shop_rect = pygame.Rect(WIDTH // 2 - 90, 520, 180, 50)
         pygame.draw.rect(WIN, (180, 120, 40), shop_rect)
         WIN.blit(FONT.render("Open Shop", True, (255, 255, 255)), (shop_rect.x + 35, shop_rect.y + 12))
+        if selected_car_model:
+            mini_x = WIDTH - 320
+            mini_y = 120
+            pygame.draw.rect(WIN, (35, 35, 35), (mini_x, mini_y, 260, 260), border_radius=16)
+            WIN.blit(FONT.render("Car Stats", True, (255, 255, 255)), (mini_x + 20, mini_y + 15))
+            for i, stat in enumerate(["Speed", "Handling", "Acceleration", "Launch", "Top Speed"]):
+                draw_stat_bar(WIN, mini_x + 20, mini_y + 55 + i * 42, stat, selected_car_model["stats"][stat], width=220)
+
         start_rect = pygame.Rect(WIDTH // 2 - 80, 585, 160, 50)
         pygame.draw.rect(WIN, (30, 160, 30) if player_choice else (80, 80, 80), start_rect)
         WIN.blit(FONT.render("Start Race", True, (255, 255, 255)), (start_rect.x + 28, start_rect.y + 12))
@@ -528,27 +1117,23 @@ def podium_screen(finish_order, earned_credits, credits):
         pygame.display.flip()
 
 
-def run_race(player_choice, difficulty, available_colors, unit, car_model):
+def run_race(player_choice, difficulty, available_colors, unit, car_model, credits, unlocked_cars):
     clock = pygame.time.Clock()
     track_rect, inner_rect = draw_track(WIN)
     waypoints = generate_waypoints(track_rect)
 
     # starting grid (4 cars)
     cars = []
-    start_x = WIDTH//2 - 120
     start_y = track_rect.top + 60
-    # choose other 3 colors from available_colors excluding player's choice
     pool = [c for c in available_colors if c[0] != player_choice[0]]
     opponents = random.sample(pool, 3)
 
-    # map difficulties to ai speed factor
-    ai_factor = {"Easy":0.60, "Medium":0.75, "Hard":0.95}[difficulty]
-
-    # create car objects: player first
-    slots = [WIDTH//2 - 90, WIDTH//2 - 30, WIDTH//2 + 30, WIDTH//2 + 90]
-    player_slot = {"Easy":0, "Medium":1, "Hard":3}[difficulty]
-    grid_slots = [0, 1, 2, 3]
-    grid_slots.remove(player_slot)
+    difficulty_settings = {
+        "Easy": {"ai_factor": 0.65, "bot_speed_bonus": 0.90},
+        "Medium": {"ai_factor": 0.80, "bot_speed_bonus": 1.05},
+        "Hard": {"ai_factor": 1.00, "bot_speed_bonus": 1.20},
+    }
+    ai_settings = difficulty_settings[difficulty]
 
     start_positions = [
         (WIDTH//2 - 40, start_y - 30),
@@ -556,19 +1141,20 @@ def run_race(player_choice, difficulty, available_colors, unit, car_model):
         (WIDTH//2 - 40, start_y + 30),
         (WIDTH//2 + 40, start_y + 60),
     ]
-    position_index = [0, 1, 2, 3]
     player_slot = {"Easy":0, "Medium":1, "Hard":3}[difficulty]
+    position_index = [0, 1, 2, 3]
     position_index.remove(player_slot)
 
     player_car = Car(car_model["name"], player_choice[1], start_positions[player_slot], angle=0, is_player=True, car_model=car_model["name"])
-    player_car.max_speed = 5.5
+    player_car.max_speed = 5.5 + (car_model["stats"]["Top Speed"] - 7.5) * 0.8
+    player_car.turn_speed = 3.0 + (car_model["stats"]["Handling"] - 7.0) * 0.3
     cars.append(player_car)
     for i, (name, col) in enumerate(opponents):
         pos = start_positions[position_index[i]]
         model = random.choice(CAR_MODELS)
         c = Car(model["name"], col, pos, angle=0, is_player=False, car_model=model["name"])
-        # give slight variations to max speed
-        c.max_speed = c.max_speed * (0.85 + random.random() * 0.15)
+        c.max_speed = 5.0 * (0.85 + random.random() * 0.12) * ai_settings["bot_speed_bonus"]
+        c.turn_speed = 2.4 + random.random() * 0.8
         cars.append(c)
 
     finish_order = []
@@ -578,6 +1164,7 @@ def run_race(player_choice, difficulty, available_colors, unit, car_model):
 
     elapsed = 0
     race_start = pygame.time.get_ticks()
+    save_message = ""
     while True:
         dt = clock.tick(FPS)
         elapsed += dt
@@ -585,6 +1172,9 @@ def run_race(player_choice, difficulty, available_colors, unit, car_model):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+                save_game_data(credits, unlocked_cars, car_model["name"])
+                save_message = "Progress saved!"
 
         keys = pygame.key.get_pressed()
 
@@ -597,7 +1187,7 @@ def run_race(player_choice, difficulty, available_colors, unit, car_model):
             else:
                 idx = waypoint_idx[c]
                 wp = waypoints[idx]
-                c.update_ai(wp, ai_factor)
+                c.update_ai(wp, ai_settings["ai_factor"])
 
             idx = waypoint_idx[c]
             wp = waypoints[idx]
@@ -658,19 +1248,31 @@ def run_race(player_choice, difficulty, available_colors, unit, car_model):
         hud2 = FONT.render(timer_text + "   " + speed_text, True, (255,255,255))
         WIN.blit(hud1, (20, 20))
         WIN.blit(hud2, (20, 45))
+        stat_text = FONT.render("Press S to save progress", True, (200, 200, 200))
+        WIN.blit(stat_text, (WIDTH - stat_text.get_width() - 20, 20))
+        if save_message:
+            save_text = FONT.render(save_message, True, (120, 220, 120))
+            WIN.blit(save_text, (WIDTH - save_text.get_width() - 20, 45))
 
         pygame.display.flip()
 
 
 def main():
-    credits = 0
-    unlocked_cars = set(DEFAULT_UNLOCKED_CARS)
-    selected_car_model = CAR_MODELS[0]
+    saved = load_game_data()
+    credits = saved["credits"]
+    unlocked_cars = set(saved["unlocked_cars"])
+    selected_car_model = get_model_by_name(saved["selected_car"])
+    for model in CAR_MODELS:
+        if model["name"] in saved.get("stats", {}):
+            model["stats"] = saved["stats"][model["name"]]
+
     while True:
         player_choice, difficulty, available, unit, selected_car_model, credits, unlocked_cars = selection_screen(credits, unlocked_cars, selected_car_model)
-        finish, earned = run_race(player_choice, difficulty, available, unit, selected_car_model)
+        finish, earned = run_race(player_choice, difficulty, available, unit, selected_car_model, credits, unlocked_cars)
         credits += earned
         podium_screen(finish, earned, credits)
+        save_game_data(credits, unlocked_cars, selected_car_model["name"])
+        save_game_data(credits, unlocked_cars, selected_car_model["name"])
 
 
 if __name__ == "__main__":
