@@ -30,6 +30,8 @@ FONT = pygame.font.SysFont("Arial", 20)
 BIG = pygame.font.SysFont("Arial", 36, bold=True)
 
 LAPS = 3
+CHECKPOINT_RADIUS = 90
+CHECKPOINT_DRAW_RADIUS = 18
 
 
 class Car:
@@ -47,30 +49,95 @@ class Car:
         self.finished = False
         self.finish_time = None
         self.is_player = is_player
+        self.wall_hit = 0
 
     def rect(self):
         return pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
 
     def draw(self, surf):
-        # Draw rotated rectangle as car
-        rect = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-        rect.fill(self.color)
-        rotated = pygame.transform.rotate(rect, -self.angle)
-        r = rotated.get_rect(center=(self.x, self.y))
-        surf.blit(rotated, r.topleft)
+        # Draw a non-rotating car body to avoid visual glitches
+        rect = pygame.Rect(self.x - self.width // 2, self.y - self.height // 2, self.width, self.height)
+        pygame.draw.rect(surf, self.color, rect)
+        if self.wall_hit > 0:
+            pygame.draw.rect(surf, (255, 255, 255), rect, 3)
 
     def update_player(self, keys):
-        if keys[pygame.K_UP] or keys[pygame.K_w]:
+        forward = keys[pygame.K_w]
+        reverse = keys[pygame.K_s]
+        left = keys[pygame.K_a]
+        right = keys[pygame.K_d]
+
+        if forward:
             self.speed = min(self.max_speed, self.speed + 0.15)
+        elif reverse:
+            if self.speed > 0:
+                self.speed = max(0, self.speed - 0.3)
+            else:
+                self.speed = max(-self.max_speed * 0.6, self.speed - 0.1)
         else:
-            self.speed = max(0, self.speed - 0.08)
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            self.angle += self.turn_speed * (self.speed / self.max_speed)
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            self.angle -= self.turn_speed * (self.speed / self.max_speed)
+            if self.speed > 0:
+                self.speed = max(0, self.speed - 0.08)
+            elif self.speed < 0:
+                self.speed = min(0, self.speed + 0.08)
+
+        speed_factor = max(0.3, min(1.0, abs(self.speed) / self.max_speed))
+        turn_rate = self.turn_speed * (0.8 + 0.7 * speed_factor)
+
+        if left:
+            self.angle -= turn_rate
+        if right:
+            self.angle += turn_rate
+
         rad = math.radians(self.angle)
         self.x += math.sin(rad) * self.speed
         self.y -= math.cos(rad) * self.speed
+
+        if self.wall_hit > 0:
+            self.wall_hit -= 1
+
+    def is_on_road(self, track_rect):
+        inner = track_rect.inflate(-160, -120)
+        return track_rect.collidepoint(self.x, self.y) and not inner.collidepoint(self.x, self.y)
+
+    def apply_surface_effect(self, track_rect):
+        inner = track_rect.inflate(-160, -120)
+        if self.is_on_road(track_rect):
+            return
+
+        if not track_rect.collidepoint(self.x, self.y):
+            if self.x < track_rect.left:
+                self.x = track_rect.left
+                self.angle = (180 - self.angle) % 360
+            elif self.x > track_rect.right:
+                self.x = track_rect.right
+                self.angle = (180 - self.angle) % 360
+            if self.y < track_rect.top:
+                self.y = track_rect.top
+                self.angle = (-self.angle) % 360
+            elif self.y > track_rect.bottom:
+                self.y = track_rect.bottom
+                self.angle = (-self.angle) % 360
+        elif inner.collidepoint(self.x, self.y):
+            left_gap = abs(self.x - inner.left)
+            right_gap = abs(self.x - inner.right)
+            top_gap = abs(self.y - inner.top)
+            bottom_gap = abs(self.y - inner.bottom)
+            min_gap = min(left_gap, right_gap, top_gap, bottom_gap)
+            if min_gap == left_gap:
+                self.x = inner.left
+                self.angle = (180 - self.angle) % 360
+            elif min_gap == right_gap:
+                self.x = inner.right
+                self.angle = (180 - self.angle) % 360
+            elif min_gap == top_gap:
+                self.y = inner.top
+                self.angle = (-self.angle) % 360
+            else:
+                self.y = inner.bottom
+                self.angle = (-self.angle) % 360
+
+        self.speed = -self.speed * 0.85
+        self.wall_hit = 10
 
     def update_ai(self, waypoint, ai_speed_factor):
         # simple steering toward waypoint
@@ -94,9 +161,57 @@ def draw_track(surface):
     surface.fill((22, 120, 84))
     # draw asphalt rectangle track
     track_rect = pygame.Rect(80, 80, WIDTH - 160, HEIGHT - 240)
+    border = 18
+    outer = track_rect.inflate(border * 2, border * 2)
+    # draw red/white checkered barrier around the outside of the track
+    block = 24
+    for x in range(outer.left, outer.right, block):
+        color = (255, 0, 0) if ((x // block) % 2 == 0) else (255, 255, 255)
+        pygame.draw.rect(surface, color, (x, track_rect.top - border, block, border))
+        pygame.draw.rect(surface, color, (x, track_rect.bottom, block, border))
+    for y in range(outer.top, outer.bottom, block):
+        color = (255, 0, 0) if ((y // block) % 2 == 0) else (255, 255, 255)
+        pygame.draw.rect(surface, color, (track_rect.left - border, y, border, block))
+        pygame.draw.rect(surface, color, (track_rect.right, y, border, block))
     pygame.draw.rect(surface, (50, 50, 50), track_rect)
     inner = track_rect.inflate(-160, -120)
     pygame.draw.rect(surface, (22, 120, 84), inner)
+    # draw inner checkered barrier around the grass area
+    inner_border = 16
+    for x in range(inner.left, inner.right, block):
+        color = (255, 0, 0) if ((x // block) % 2 == 0) else (255, 255, 255)
+        pygame.draw.rect(surface, color, (x, inner.top - inner_border, block, inner_border))
+        pygame.draw.rect(surface, color, (x, inner.bottom, block, inner_border))
+    for y in range(inner.top, inner.bottom, block):
+        color = (255, 0, 0) if ((y // block) % 2 == 0) else (255, 255, 255)
+        pygame.draw.rect(surface, color, (inner.left - inner_border, y, inner_border, block))
+        pygame.draw.rect(surface, color, (inner.right, y, inner_border, block))
+    # draw grandstands and fans
+    stand_height = 50
+    stand_color = (130, 130, 130)
+    left_stand = pygame.Rect(track_rect.left + 40, track_rect.top - border - stand_height - 20, 240, stand_height)
+    right_stand = pygame.Rect(track_rect.right - 280, track_rect.top - border - stand_height - 20, 240, stand_height)
+    pygame.draw.rect(surface, stand_color, left_stand)
+    pygame.draw.rect(surface, stand_color, right_stand)
+    for i in range(6):
+        for row in range(3):
+            fan_x = left_stand.left + 20 + i * 36
+            fan_y = left_stand.top + 10 + row * 12
+            pygame.draw.circle(surface, (255, 220, 180), (fan_x, fan_y), 5)
+            fan_x = right_stand.left + 20 + i * 36
+            pygame.draw.circle(surface, (255, 220, 180), (fan_x, fan_y), 5)
+    # draw cheering flags
+    for i in range(3):
+        fx = left_stand.left + 40 + i * 70
+        pygame.draw.polygon(surface, (255, 0, 0), [(fx, left_stand.top), (fx + 12, left_stand.top + 8), (fx, left_stand.top + 16)])
+        fx = right_stand.left + 40 + i * 70
+        pygame.draw.polygon(surface, (0, 0, 255), [(fx, right_stand.top), (fx + 12, right_stand.top + 8), (fx, right_stand.top + 16)])
+    # draw trees and bushes behind stands
+    for i, tx in enumerate(range(track_rect.left + 20, track_rect.right, 120)):
+        pygame.draw.rect(surface, (101, 67, 33), (tx, track_rect.top - border - stand_height - 60, 10, 20))
+        pygame.draw.circle(surface, (20, 120, 20), (tx + 5, track_rect.top - border - stand_height - 70), 18)
+        pygame.draw.circle(surface, (16, 100, 16), (tx - 18, track_rect.top - border - stand_height - 50), 12)
+        pygame.draw.circle(surface, (16, 100, 16), (tx + 18, track_rect.top - border - stand_height - 50), 12)
     # start/finish line
     start_x = WIDTH // 2
     pygame.draw.line(surface, (255,255,255), (start_x, track_rect.top), (start_x, track_rect.top+40), 6)
@@ -104,28 +219,26 @@ def draw_track(surface):
 
 
 def generate_waypoints(track_rect):
-    # around the center of the track rectangle
-    left = track_rect.left + 20
-    right = track_rect.right - 20
-    top = track_rect.top + 20
-    bottom = track_rect.bottom - 20
+    left = track_rect.left + 40
+    right = track_rect.right - 40
+    top = track_rect.top + 40
+    bottom = track_rect.bottom - 40
     return [
-        (WIDTH//2, top + 10),
-        (right - 10, HEIGHT//2 - 80),
-        (right - 10, bottom - 10),
-        (WIDTH//2, bottom - 10),
-        (left + 10, bottom - 10),
-        (left + 10, HEIGHT//2 - 80),
-        (left + 10, top + 10),
+        (right, top),
+        (right, bottom),
+        (left, bottom),
+        (left, top),
     ]
 
 
 def selection_screen():
     clock = pygame.time.Clock()
-    chosen_colors = random.sample(COLOR_POOL, 4)
+    chosen_colors = list(COLOR_POOL)
     player_choice = None
     difficulty = "Medium"
+    unit = "km/h"
     difficulties = ["Easy", "Medium", "Hard"]
+    units = ["km/h", "mph"]
 
     while True:
         clock.tick(FPS)
@@ -137,8 +250,8 @@ def selection_screen():
                 mx, my = pygame.mouse.get_pos()
                 # color buttons
                 for i, (name, col) in enumerate(chosen_colors):
-                    bx = 150 + i * 180
-                    by = 260
+                    bx = 120 + (i % 5) * 160
+                    by = 240 + (i // 5) * 120
                     br = pygame.Rect(bx - 40, by - 40, 80, 80)
                     if br.collidepoint(mx, my):
                         player_choice = (name, col)
@@ -149,22 +262,29 @@ def selection_screen():
                     br = pygame.Rect(bx - 60, by - 20, 120, 40)
                     if br.collidepoint(mx, my):
                         difficulty = d
+                # unit buttons
+                for i, u in enumerate(units):
+                    bx = 150 + i * 180
+                    by = 450
+                    br = pygame.Rect(bx - 60, by - 20, 120, 40)
+                    if br.collidepoint(mx, my):
+                        unit = u
                 # start
-                start_rect = pygame.Rect(WIDTH//2 - 80, 460, 160, 50)
+                start_rect = pygame.Rect(WIDTH//2 - 80, 520, 160, 50)
                 if start_rect.collidepoint(mx, my) and player_choice:
-                    return player_choice, difficulty, chosen_colors
+                    return player_choice, difficulty, chosen_colors, unit
 
         WIN.fill((30, 30, 30))
         WIN.blit(BIG.render("Choose Your Car Color", True, (255,255,255)), (WIDTH//2 - 170, 30))
         WIN.blit(FONT.render("Available colors (pick one):", True, (200,200,200)), (80, 210))
         for i, (name, col) in enumerate(chosen_colors):
-            bx = 150 + i * 180
-            by = 260
-            pygame.draw.circle(WIN, col, (bx, by), 40)
+            bx = 120 + (i % 5) * 160
+            by = 240 + (i // 5) * 120
+            pygame.draw.circle(WIN, col, (bx, by), 30)
             txt = FONT.render(name.capitalize(), True, (255,255,255))
-            WIN.blit(txt, (bx - txt.get_width()//2, by + 50))
+            WIN.blit(txt, (bx - txt.get_width()//2, by + 40))
             if player_choice and player_choice[0] == name:
-                pygame.draw.circle(WIN, (255,255,255), (bx, by), 46, 3)
+                pygame.draw.circle(WIN, (255,255,255), (bx, by), 36, 3)
 
         WIN.blit(FONT.render("Select Difficulty:", True, (200,200,200)), (80, 350))
         for i, d in enumerate(difficulties):
@@ -175,7 +295,16 @@ def selection_screen():
             pygame.draw.rect(WIN, color, r)
             WIN.blit(FONT.render(d, True, (255,255,255)), (bx - 20, by - 10))
 
-        start_rect = pygame.Rect(WIDTH//2 - 80, 460, 160, 50)
+        WIN.blit(FONT.render("Speed unit:", True, (200,200,200)), (80, 450))
+        for i, u in enumerate(units):
+            bx = 150 + i * 180
+            by = 450
+            r = pygame.Rect(bx - 60, by - 20, 120, 40)
+            color = (100,100,100) if u != unit else (200,100,50)
+            pygame.draw.rect(WIN, color, r)
+            WIN.blit(FONT.render(u, True, (255,255,255)), (bx - 20, by - 10))
+
+        start_rect = pygame.Rect(WIDTH//2 - 80, 520, 160, 50)
         pygame.draw.rect(WIN, (30, 160, 30) if player_choice else (80,80,80), start_rect)
         WIN.blit(FONT.render("Start Race", True, (255,255,255)), (start_rect.x + 28, start_rect.y + 12))
 
@@ -224,13 +353,19 @@ def podium_screen(finish_order):
             pygame.draw.circle(WIN, car.color, (px, py - 30), 30)
             txt = BIG.render(f"{label}: {car.name}", True, car.color)
             WIN.blit(txt, (px - txt.get_width()//2, py + 10))
+            if car.finish_time is not None:
+                minutes = car.finish_time // 60000
+                seconds = (car.finish_time // 1000) % 60
+                centis = (car.finish_time % 1000) // 10
+                time_txt = FONT.render(f"{minutes}:{seconds:02}.{centis:02}", True, (255,255,255))
+                WIN.blit(time_txt, (px - time_txt.get_width()//2, py + 40))
 
         info = FONT.render("Press Enter to go back to selection", True, (200,200,200))
         WIN.blit(info, (WIDTH//2 - info.get_width()//2, HEIGHT - 60))
         pygame.display.flip()
 
 
-def run_race(player_choice, difficulty, available_colors):
+def run_race(player_choice, difficulty, available_colors, unit):
     clock = pygame.time.Clock()
     track_rect = draw_track(WIN)
     waypoints = generate_waypoints(track_rect)
@@ -244,15 +379,32 @@ def run_race(player_choice, difficulty, available_colors):
     opponents = random.sample(pool, 3)
 
     # map difficulties to ai speed factor
-    ai_factor = {"Easy":0.85, "Medium":1.0, "Hard":1.15}[difficulty]
+    ai_factor = {"Easy":0.60, "Medium":0.75, "Hard":0.95}[difficulty]
 
     # create car objects: player first
-    player_car = Car(player_choice[0], player_choice[1], (start_x, start_y), angle=0, is_player=True)
+    slots = [WIDTH//2 - 90, WIDTH//2 - 30, WIDTH//2 + 30, WIDTH//2 + 90]
+    player_slot = {"Easy":0, "Medium":1, "Hard":3}[difficulty]
+    grid_slots = [0, 1, 2, 3]
+    grid_slots.remove(player_slot)
+
+    start_positions = [
+        (WIDTH//2 - 40, start_y - 30),
+        (WIDTH//2 + 40, start_y),
+        (WIDTH//2 - 40, start_y + 30),
+        (WIDTH//2 + 40, start_y + 60),
+    ]
+    position_index = [0, 1, 2, 3]
+    player_slot = {"Easy":0, "Medium":1, "Hard":3}[difficulty]
+    position_index.remove(player_slot)
+
+    player_car = Car(player_choice[0], player_choice[1], start_positions[player_slot], angle=0, is_player=True)
+    player_car.max_speed = 5.5
     cars.append(player_car)
     for i, (name, col) in enumerate(opponents):
-        c = Car(name, col, (start_x + (i+1)*60, start_y), angle=0, is_player=False)
+        pos = start_positions[position_index[i]]
+        c = Car(name, col, pos, angle=0, is_player=False)
         # give slight variations to max speed
-        c.max_speed = c.max_speed * (0.95 + random.random()*0.15)
+        c.max_speed = c.max_speed * (0.85 + random.random() * 0.15)
         cars.append(c)
 
     finish_order = []
@@ -261,6 +413,7 @@ def run_race(player_choice, difficulty, available_colors):
     waypoint_idx = {c:0 for c in cars}
 
     elapsed = 0
+    race_start = pygame.time.get_ticks()
     while True:
         dt = clock.tick(FPS)
         elapsed += dt
@@ -281,30 +434,26 @@ def run_race(player_choice, difficulty, available_colors):
                 idx = waypoint_idx[c]
                 wp = waypoints[idx]
                 c.update_ai(wp, ai_factor)
-                # check proximity to waypoint
-                if math.hypot(c.x - wp[0], c.y - wp[1]) < 30:
+
+            idx = waypoint_idx[c]
+            wp = waypoints[idx]
+            dist = math.hypot(c.x - wp[0], c.y - wp[1])
+            if dist < CHECKPOINT_RADIUS:
+                if not getattr(c, '_hit_waypoint', False):
+                    c._hit_waypoint = True
                     waypoint_idx[c] = (idx + 1) % total_waypoints
-                    # crossing start line checks when wrapping to waypoint 0
                     if waypoint_idx[c] == 0:
                         c.lap += 1
                         if c.lap >= laps_needed and not c.finished:
                             c.finished = True
+                            c.finish_time = pygame.time.get_ticks() - race_start
                             finish_order.append(c)
-            # player lap detection: check crossing near start (y less than track_rect.top+50 and x near center)
-            if c.is_player and not c.finished:
-                if c.y < track_rect.top + 60 and abs(c.x - WIDTH//2) < 80:
-                    # Assume crossing forward (simple debounce)
-                    if getattr(c, '_crossed', False) is False:
-                        c._crossed = True
-                else:
-                    c._crossed = False
-                # increment lap if crossed finish area and moving downwards (approx)
-                if c._crossed and c.y > track_rect.top + 80:
-                    c.lap += 1
-                    c._crossed = False
-                    if c.lap >= laps_needed and not c.finished:
-                        c.finished = True
-                        finish_order.append(c)
+            else:
+                c._hit_waypoint = False
+
+        # apply surface effects after movement
+        for c in cars:
+            c.apply_surface_effect(track_rect)
 
         # check if race finished (3 finishers)
         if len(finish_order) >= 3:
@@ -312,20 +461,45 @@ def run_race(player_choice, difficulty, available_colors):
 
         # draw
         draw_track(WIN)
+        # draw visible starting grid slots
+        start_slots = [WIDTH//2 - 90, WIDTH//2 - 30, WIDTH//2 + 30, WIDTH//2 + 90]
+        for i, slot_x in enumerate(start_slots):
+            pygame.draw.rect(WIN, (180, 180, 180), (slot_x - 20, start_y - 50, 40, 50), 2)
+            label = FONT.render(str(i + 1), True, (255, 255, 255))
+            WIN.blit(label, (slot_x - label.get_width()//2, start_y - 48))
+        # draw checkpoints at each turn
+        for idx, wp in enumerate(waypoints):
+            color = (255, 255, 0) if idx == waypoint_idx[player_car] else (200, 200, 200)
+            pygame.draw.circle(WIN, color, (int(wp[0]), int(wp[1])), CHECKPOINT_DRAW_RADIUS)
+            pygame.draw.circle(WIN, (0, 0, 0), (int(wp[0]), int(wp[1])), CHECKPOINT_DRAW_RADIUS + 4, 3)
+
         for c in cars:
             c.draw(WIN)
 
         # HUD
-        hud = FONT.render(f"Lap: {player_car.lap}/{laps_needed}  Difficulty: {difficulty}", True, (255,255,255))
-        WIN.blit(hud, (20, 20))
+        elapsed_time = pygame.time.get_ticks() - race_start
+        minutes = elapsed_time // 60000
+        seconds = (elapsed_time // 1000) % 60
+        centis = (elapsed_time % 1000) // 10
+        timer_text = f"Time: {minutes}:{seconds:02}.{centis:02}"
+        speed_mph = abs(player_car.speed) * 20
+        if unit == "km/h":
+            speed_value = int(speed_mph * 1.609344)
+        else:
+            speed_value = int(speed_mph)
+        speed_text = f"Speed: {speed_value} {unit}"
+        hud1 = FONT.render(f"Lap: {player_car.lap}/{laps_needed}  Difficulty: {difficulty}", True, (255,255,255))
+        hud2 = FONT.render(timer_text + "   " + speed_text, True, (255,255,255))
+        WIN.blit(hud1, (20, 20))
+        WIN.blit(hud2, (20, 45))
 
         pygame.display.flip()
 
 
 def main():
     while True:
-        player_choice, difficulty, available = selection_screen()
-        finish = run_race(player_choice, difficulty, available)
+        player_choice, difficulty, available, unit = selection_screen()
+        finish = run_race(player_choice, difficulty, available, unit)
         podium_screen(finish)
 
 
