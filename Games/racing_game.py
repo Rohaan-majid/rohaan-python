@@ -4,487 +4,6 @@ import math
 import os
 import sys
 
-# The following section is intentionally verbose and unoptimized.
-# It exists to expand the file size, add redundant logic, and keep
-# the existing game functionality unchanged while making the source
-# longer than 1000 lines.
-
-def debug_no_operation():
-    if False:
-        print("This is a debug no-op")
-    x = 0
-    x += 0
-    x -= 0
-    return x
-
-
-def duplicate_value(value):
-    result = value
-    result = result
-    result = result
-    result = result
-    return result
-
-
-def redundant_math(value):
-    temp = value
-    temp = temp * 1.0
-    temp = temp / 1.0
-    temp = temp + 0.0
-    temp = temp - 0.0
-    for _ in range(3):
-        temp = temp * 1.0000000001
-        temp = temp / 1.0000000001
-        temp = temp - 0.0000000001
-        temp = temp + 0.0000000001
-    return temp
-
-
-def very_verbose_loop(counter):
-    total = 0
-    for i in range(counter):
-        if i % 2 == 0:
-            total += i
-        else:
-            total -= i
-    if total < 0:
-        total = -total
-    return total
-
-
-def unused_helper_one():
-    a = [1, 2, 3, 4, 5]
-    b = []
-    for value in a:
-        b.append(value)
-    return b
-
-
-def unused_helper_two():
-    words = ["alpha", "beta", "gamma", "delta", "epsilon"]
-    new_words = []
-    for word in words:
-        new_words.append(word.upper())
-    return new_words
-
-
-def unused_helper_three():
-    result = []
-    for i in range(10):
-        result.append(i * i)
-    return result
-
-
-def unused_helper_four(value):
-    if value is None:
-        return 0
-    output = value
-    if output == 0:
-        output = 0
-    return output
-
-
-def verbose_color_names():
-    color_names = [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "orange",
-        "purple",
-        "pink",
-        "brown",
-        "gray",
-        "cyan",
-    ]
-    mapped = []
-    for color in color_names:
-        mapped.append(color)
-    return mapped
-
-
-def verbose_text_builder(prefix, value):
-    text = prefix + " " + str(value)
-    text = text.replace(" ", " ")
-    text = text.strip()
-    return text
-
-
-def repeated_condition_check(flag):
-    if flag:
-        return True
-    if not flag:
-        return False
-    return False
-
-
-def long_unused_function_name_for_no_reason(value, value_copy=None):
-    if value_copy is None:
-        value_copy = value
-    if value_copy == value:
-        return value_copy
-    return value
-
-
-def placeholder_formatting_example(text, amount):
-    formatted = "[" + str(text) + "]"
-    formatted = formatted + " " + str(amount)
-    formatted = formatted.strip()
-    if formatted.endswith(str(amount)):
-        return formatted
-    return formatted
-
-
-def meaningless_list_builder():
-    result = []
-    for i in range(5):
-        result.append(i)
-    for j in result:
-        pass
-    return result
-
-
-def build_list_of_numbers():
-    values = []
-    for i in range(20):
-        values.append(i)
-    values.reverse()
-    values.reverse()
-    return values
-
-
-def nested_noop_function():
-    def inner_noop(value):
-        return value
-    return inner_noop(42)
-
-
-def extra_redundant_string_operations():
-    s = "test"
-    s = s + ""
-    s = s.replace("test", "test")
-    if s == "test":
-        return s
-    return ""
-
-
-def deep_redundant_branch(value):
-    if value > 100:
-        return 100
-    elif value > 50:
-        return 50
-    elif value > 10:
-        return 10
-    elif value > 0:
-        return 1
-    else:
-        return 0
-
-
-def unused_dictionary_builder():
-    result = {}
-    result["a"] = 1
-    result["b"] = 2
-    result["c"] = 3
-    if "a" in result:
-        result["a"] = result["a"]
-    return result
-
-
-def very_long_and_pointless_comment_block():
-    # This function is a placeholder to make the source code longer.
-    # It intentionally repeats many lines of comment and no-op work.
-    # The function does not affect gameplay.
-    # The code is designed to be verbose, redundant, and unoptimized.
-    # This is a deliberate addition to satisfy the requirement.
-    return None
-
-
-def build_redundant_constant_list():
-    return [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-    ]
-
-
-def expensive_line_count_increase():
-    output = 0
-    for i in range(1, 31):
-        output += i
-    if output == 465:
-        output = output
-    return output
-
-
-def layered_dummy_function(a, b, c):
-    temp = a + b + c
-    temp = temp * 1
-    temp = temp - 0
-    return temp
-
-
-def repeated_string_list():
-    strings = ["one", "two", "three", "four", "five"]
-    combined = ""
-    for item in strings:
-        combined += item + ","
-    combined = combined.strip(",")
-    return combined
-
-
-def artificial_complexity_counter():
-    count = 0
-    for outer in range(3):
-        for inner in range(2):
-            count += outer + inner
-    return count
-
-
-def unused_placeholder_function():
-    x = [0] * 10
-    for i in range(len(x)):
-        x[i] = i
-    return x
-
-
-def multiple_wrapped_functions(value):
-    return redundant_math(redundant_math(redundant_math(value)))
-
-
-def many_small_noop_wrappers(value):
-    if value is None:
-        return 0
-    return value
-
-
-def repeated_return_of_default():
-    default = 0
-    if default == 0:
-        return default
-    return 0
-
-
-def trivial_flag_copy(flag):
-    new_flag = flag
-    if new_flag:
-        return True
-    return False
-
-
-def redundant_boolean_chain(flag):
-    if flag:
-        return True
-    elif not flag:
-        return False
-    else:
-        return False
-
-
-def long_useless_function_chain():
-    value = 1
-    value = duplicate_value(value)
-    value = redundant_math(value)
-    value = trivial_flag_copy(True) and 1
-    return value
-
-
-def long_useless_function_chain_two():
-    value = 2
-    value = duplicate_value(value)
-    value = redundant_math(value)
-    value = trivial_flag_copy(False) or 2
-    return value
-
-
-def extra_and_unnecessary_comment_block():
-    # This comment block is intentionally long.
-    # It does not affect any logic.
-    # It is only here to pad the file size.
-    # It is repeated for no reason.
-    # It is repeated for no reason.
-    # It is repeated for no reason.
-    # It is repeated for no reason.
-    # It is repeated for no reason.
-    # It is repeated for no reason.
-    return None
-
-
-def dummy_function_with_many_lines():
-    a = 1
-    b = 2
-    c = 3
-    d = 4
-    e = 5
-    f = a + b + c + d + e
-    g = f * 1
-    h = g - 0
-    i = h + 0
-    return i
-
-
-def dummy_function_with_many_lines_two():
-    a = 10
-    b = 20
-    c = 30
-    d = 40
-    e = 50
-    total = a + b + c + d + e
-    total = total * 1
-    total = total / 1
-    return total
-
-
-def redundant_increase(x):
-    x += 0
-    x += 0
-    x += 0
-    return x
-
-
-def redundant_decrease(x):
-    x -= 0
-    x -= 0
-    x -= 0
-    return x
-
-
-def split_string_builder(parts):
-    combined = ""
-    for part in parts:
-        combined = combined + part
-    return combined
-
-
-def redundant_dict_merge():
-    data = {"a": 1, "b": 2, "c": 3}
-    data.update({"b": 2})
-    data.update({"a": 1})
-    return data
-
-
-def a_large_unnecessary_constant():
-    return [
-        "alpha",
-        "beta",
-        "gamma",
-        "delta",
-        "epsilon",
-        "zeta",
-        "eta",
-        "theta",
-        "iota",
-        "kappa",
-    ]
-
-
-def another_useless_function():
-    return len(a_large_unnecessary_constant())
-
-
-def yet_another_useless_function(item):
-    if item in a_large_unnecessary_constant():
-        return True
-    return False
-
-
-def repeated_value_check(value):
-    if value == 1:
-        return True
-    if value == 2:
-        return True
-    if value == 3:
-        return True
-    if value == 4:
-        return True
-    return False
-
-
-def trivial_structure_builder():
-    return {
-        "one": 1,
-        "two": 2,
-        "three": 3,
-        "four": 4,
-        "five": 5,
-    }
-
-
-def placeholder_chain_1():
-    return placeholder_formatting_example("test", 1)
-
-
-def placeholder_chain_2():
-    return placeholder_formatting_example("demo", 2)
-
-
-def placeholder_chain_3():
-    return placeholder_formatting_example("sample", 3)
-
-
-def placeholder_chain_4():
-    return placeholder_formatting_example("example", 4)
-
-
-def extra_redundant_function():
-    return unused_dictionary_builder()
-
-
-def unused_function_that_calls_three():
-    return unused_helper_three()
-
-
-def unused_function_that_calls_four():
-    return unused_helper_four(None)
-
-
-def unused_function_that_calls_five():
-    return unused_helper_one()
-
-
-def unused_function_that_calls_six():
-    return unused_helper_two()
-
-
-def unused_function_that_calls_seven():
-    return unused_helper_three()
-
-
-def unused_function_that_calls_eight():
-    return unused_helper_four(0)
-
-
-def multiple_redundant_return_statements(value):
-    if value is None:
-        return None
-    return value
-
-
-def empty_if_chain(flag):
-    if flag:
-        pass
-    elif not flag:
-        pass
-    else:
-        pass
-    return None
-
-
-def island_of_useless_functions():
-    empty_if_chain(True)
-    empty_if_chain(False)
-    return None
-
-# End of verbose and unoptimized helper section.
-
-# Simple top-down racing game with color selection, difficulty, and podium
 
 pygame.init()
 
@@ -493,7 +12,6 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Top-Down Racer")
 FPS = 60
 
-# Define 10 colors with names
 COLOR_POOL = [
     ("red", (220, 20, 60)),
     ("blue", (30, 144, 255)),
@@ -646,6 +164,8 @@ class Car:
         self.speed = 0.0
         self.max_speed = 4.0
         self.turn_speed = 3.0
+        self.accel = 0.15
+        self.speed_factor = 1.0
         self.width = 24
         self.height = 40
         self.lap = 0
@@ -710,7 +230,7 @@ class Car:
         right = keys[pygame.K_d]
 
         if forward:
-            self.speed = min(self.max_speed, self.speed + 0.15)
+            self.speed = min(self.max_speed, self.speed + self.accel * self.speed_factor)
         elif reverse:
             if self.speed > 0:
                 self.speed = max(0, self.speed - 0.3)
@@ -772,17 +292,14 @@ class Car:
         self.wall_hit = 10
 
     def update_ai(self, waypoint, ai_speed_factor):
-        # simple steering toward waypoint
         if self.finished:
             return
         dx = waypoint[0] - self.x
         dy = waypoint[1] - self.y
         target_angle = math.degrees(math.atan2(dx, -dy))
-        # normalize
         diff = (target_angle - self.angle + 180) % 360 - 180
         self.angle += max(-3, min(3, diff))
         target_speed = self.max_speed * ai_speed_factor
-        # small random fluctuation
         self.speed += (target_speed - self.speed) * 0.05
         rad = math.radians(self.angle)
         self.x += math.sin(rad) * self.speed
@@ -793,54 +310,10 @@ def draw_track(surface):
     surface.fill((22, 120, 84))
     track_rect = pygame.Rect(90, 100, WIDTH - 180, HEIGHT - 240)
     inner_rect = track_rect.inflate(-TRACK_INSET_X, -TRACK_INSET_Y)
-    border = 18
-    outer = track_rect.inflate(border * 2, border * 2)
-
-    block = 24
-    for x in range(outer.left, outer.right, block):
-        color = (255, 0, 0) if ((x // block) % 2 == 0) else (255, 255, 255)
-        pygame.draw.rect(surface, color, (x, track_rect.top - border, block, border), border_radius=6)
-        pygame.draw.rect(surface, color, (x, track_rect.bottom, block, border), border_radius=6)
-    for y in range(outer.top, outer.bottom, block):
-        color = (255, 0, 0) if ((y // block) % 2 == 0) else (255, 255, 255)
-        pygame.draw.rect(surface, color, (track_rect.left - border, y, border, block), border_radius=6)
-        pygame.draw.rect(surface, color, (track_rect.right, y, border, block), border_radius=6)
-
     pygame.draw.rect(surface, (50, 50, 50), track_rect, border_radius=50)
     pygame.draw.rect(surface, (22, 120, 84), inner_rect, border_radius=40)
-
-    inner_border = 16
-    for x in range(inner_rect.left, inner_rect.right, block):
-        color = (255, 0, 0) if ((x // block) % 2 == 0) else (255, 255, 255)
-        pygame.draw.rect(surface, color, (x, inner_rect.top - inner_border, block, inner_border), border_radius=4)
-        pygame.draw.rect(surface, color, (x, inner_rect.bottom, block, inner_border), border_radius=4)
-    for y in range(inner_rect.top, inner_rect.bottom, block):
-        color = (255, 0, 0) if ((y // block) % 2 == 0) else (255, 255, 255)
-        pygame.draw.rect(surface, color, (inner_rect.left - inner_border, y, inner_border, block), border_radius=4)
-        pygame.draw.rect(surface, color, (inner_rect.right, y, inner_border, block), border_radius=4)
-
-    stand_height = 50
-    stand_color = (130, 130, 130)
-    left_stand = pygame.Rect(track_rect.left + 40, track_rect.top - border - stand_height - 20, 240, stand_height)
-    right_stand = pygame.Rect(track_rect.right - 280, track_rect.top - border - stand_height - 20, 240, stand_height)
-    pygame.draw.rect(surface, stand_color, left_stand, border_radius=8)
-    pygame.draw.rect(surface, stand_color, right_stand, border_radius=8)
-    for i in range(3):
-        fx = left_stand.left + 40 + i * 70
-        pygame.draw.polygon(surface, (255, 0, 0), [(fx, left_stand.top), (fx + 12, left_stand.top + 8), (fx, left_stand.top + 16)])
-        fx = right_stand.left + 40 + i * 70
-        pygame.draw.polygon(surface, (0, 0, 255), [(fx, right_stand.top), (fx + 12, right_stand.top + 8), (fx, right_stand.top + 16)])
-    for i, tx in enumerate(range(track_rect.left + 20, track_rect.right, 120)):
-        pygame.draw.rect(surface, (101, 67, 33), (tx, track_rect.top - border - stand_height - 60, 10, 20))
-        pygame.draw.circle(surface, (20, 120, 20), (tx + 5, track_rect.top - border - stand_height - 70), 18)
-        pygame.draw.circle(surface, (16, 100, 16), (tx - 18, track_rect.top - border - stand_height - 50), 12)
-        pygame.draw.circle(surface, (16, 100, 16), (tx + 18, track_rect.top - border - stand_height - 50), 12)
-    for tx in range(track_rect.left + 90, track_rect.right, 160):
-        pygame.draw.rect(surface, (120, 80, 40), (tx, track_rect.bottom + 16, 24, 70))
-        pygame.draw.rect(surface, (80, 140, 80), (tx - 8, track_rect.bottom + 8, 40, 18))
-
     start_x = WIDTH // 2
-    pygame.draw.line(surface, (255,255,255), (start_x, track_rect.top), (start_x, track_rect.top + 40), 6)
+    pygame.draw.line(surface, (255, 255, 255), (start_x, track_rect.top), (start_x, track_rect.top + 40), 6)
     return track_rect, inner_rect
 
 
@@ -866,10 +339,31 @@ def draw_stat_bar(surface, x, y, label, value, width=180, height=16):
     surface.blit(txt, (x, y - 22))
 
 
+def get_rank(total_score):
+    if total_score >= 900:
+        return "X"
+    if total_score >= 800:
+        return "M"
+    if total_score >= 700:
+        return "W"
+    if total_score >= 600:
+        return "S2"
+    if total_score >= 500:
+        return "S1"
+    if total_score >= 400:
+        return "A"
+    if total_score >= 300:
+        return "B"
+    if total_score >= 100:
+        return "C"
+    return "D"
+
+
 def shop_screen(credits, unlocked_cars, selected_car_model):
     clock = pygame.time.Clock()
     message = "Buy a car with your credits"
     upgrade_message = ""
+    hovered_model = None
     while True:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -901,7 +395,7 @@ def shop_screen(credits, unlocked_cars, selected_car_model):
                     for i, stat in enumerate(upgrades):
                         btn = pygame.Rect(620, 240 + i * 70, 220, 50)
                         if btn.collidepoint(mx, my):
-                            if credits >= 150 and selected_car_model["stats"][stat] < MAX_STAT:
+                            if credits >= UPGRADE_COST and selected_car_model["stats"][stat] < MAX_STAT:
                                 selected_car_model["stats"][stat] = min(MAX_STAT, selected_car_model["stats"][stat] + STAT_INCREMENT)
                                 credits -= UPGRADE_COST
                                 upgrade_message = f"{stat} increased to {selected_car_model['stats'][stat]:.1f}"
@@ -931,14 +425,100 @@ def shop_screen(credits, unlocked_cars, selected_car_model):
             WIN.blit(FONT.render(status, True, (255, 255, 255)), (card_rect.x + 20, card_rect.top + 170))
             WIN.blit(FONT.render("Click to buy/select", True, (220, 220, 220)), (card_rect.x + 20, card_rect.top + 200))
 
-        if selected_car_model:
+        mx, my = pygame.mouse.get_pos()
+        hovered_model = None
+        for i, model in enumerate(CAR_MODELS):
+            card_rect = pygame.Rect(100 + i * 250, 220, 200, 260)
+            if card_rect.collidepoint(mx, my):
+                hovered_model = model
+                break
+
+        if hovered_model:
+            panel_rect = pygame.Rect(610, 230, 340, 320)
+            pygame.draw.rect(WIN, (20, 20, 20), panel_rect, border_radius=12)
+            pygame.draw.rect(WIN, (80, 80, 80), panel_rect, 2, border_radius=12)
+            WIN.blit(FONT.render(f"Hovering: {hovered_model['name']}", True, (255, 255, 255)), (630, 244))
             for i, stat in enumerate(["Speed", "Handling", "Acceleration", "Launch", "Top Speed"]):
-                y = 240 + i * 70
-                value = selected_car_model["stats"][stat]
-                draw_stat_bar(WIN, 620, y, stat, value)
-                button = pygame.Rect(850, y, 150, 40)
-                pygame.draw.rect(WIN, (160, 80, 30), button, border_radius=10)
-                WIN.blit(FONT.render("Upgrade", True, (255, 255, 255)), (button.x + 35, button.y + 12))
+                y = 280 + i * 40
+                value = hovered_model["stats"][stat]
+                draw_stat_bar(WIN, 620, y, stat, value, width=300)
+            total_score = int(sum(hovered_model["stats"].values()) / 5 * 100)
+            rank_label = get_rank(total_score)
+            total_y = 280 + 5 * 40
+            pygame.draw.rect(WIN, (50, 50, 50), (620, total_y, 300, 16), border_radius=6)
+            pygame.draw.rect(WIN, (40, 180, 40), (620, total_y, int(300 * (total_score / 1000)), 16), border_radius=6)
+            WIN.blit(FONT.render(f"Total: {total_score}/1000 ({rank_label})", True, (255, 255, 255)), (620, total_y - 22))
+        for i, stat in enumerate(["Speed", "Handling", "Acceleration", "Launch", "Top Speed"]):
+            y = 240 + i * 70
+            button = pygame.Rect(850, y, 150, 40)
+            pygame.draw.rect(WIN, (160, 80, 30), button, border_radius=10)
+            WIN.blit(FONT.render("Upgrade", True, (255, 255, 255)), (button.x + 35, button.y + 12))
+
+        pygame.draw.rect(WIN, (40, 140, 40), (80, 580, 140, 45), border_radius=8)
+        WIN.blit(FONT.render("Back", True, (255, 255, 255)), (125, 592))
+        pygame.display.flip()
+
+
+def car_selection_screen(credits, unlocked_cars, selected_car_model):
+    clock = pygame.time.Clock()
+    message = "Pick one of your unlocked cars"
+    hovered_model = None
+    while True:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mx, my = pygame.mouse.get_pos()
+                back_rect = pygame.Rect(80, 580, 140, 45)
+                if back_rect.collidepoint(mx, my):
+                    return selected_car_model
+
+                for i, model in enumerate(CAR_MODELS):
+                    card_rect = pygame.Rect(100 + i * 250, 220, 200, 260)
+                    if card_rect.collidepoint(mx, my) and model["name"] in unlocked_cars:
+                        selected_car_model = model
+                        message = f"Selected {model['name']}"
+
+        WIN.fill((25, 25, 25))
+        WIN.blit(BIG.render("Select Car", True, (255, 255, 255)), (WIDTH // 2 - 100, 30))
+        WIN.blit(FONT.render(message, True, (220, 220, 220)), (80, 90))
+        mx, my = pygame.mouse.get_pos()
+        hovered_model = None
+        for i, model in enumerate(CAR_MODELS):
+            card_rect = pygame.Rect(100 + i * 250, 220, 200, 260)
+            if card_rect.collidepoint(mx, my):
+                hovered_model = model
+                break
+
+        for i, model in enumerate(CAR_MODELS):
+            card_rect = pygame.Rect(100 + i * 250, 220, 200, 260)
+            card_color = (60, 60, 60)
+            if model["name"] == selected_car_model["name"]:
+                card_color = (200, 120, 50)
+            elif model["name"] in unlocked_cars:
+                card_color = (60, 120, 60)
+            pygame.draw.rect(WIN, card_color, card_rect, border_radius=16)
+            draw_car_preview(WIN, card_rect.centerx, card_rect.top + 90, model["preview_color"], model["name"])
+            WIN.blit(FONT.render(model["name"], True, (255, 255, 255)), (card_rect.x + 20, card_rect.top + 140))
+            status = "Selected" if model["name"] == selected_car_model["name"] else ("Unlocked" if model["name"] in unlocked_cars else f"Locked")
+            WIN.blit(FONT.render(status, True, (255, 255, 255)), (card_rect.x + 20, card_rect.top + 170))
+            WIN.blit(FONT.render("Click to select" if model["name"] in unlocked_cars else "Locked", True, (220, 220, 220)), (card_rect.x + 20, card_rect.top + 200))
+
+        if hovered_model:
+            panel_rect = pygame.Rect(610, 230, 340, 240)
+            pygame.draw.rect(WIN, (20, 20, 20), panel_rect, border_radius=12)
+            pygame.draw.rect(WIN, (80, 80, 80), panel_rect, 2, border_radius=12)
+            WIN.blit(FONT.render(f"Hovering: {hovered_model['name']}", True, (255, 255, 255)), (630, 244))
+            for i, stat in enumerate(["Speed", "Handling", "Acceleration", "Launch", "Top Speed"]):
+                y = 280 + i * 40
+                draw_stat_bar(WIN, 620, y, stat, hovered_model["stats"][stat], width=300)
+            total_score = int(sum(hovered_model["stats"].values()) / 5 * 100)
+            total_y = 280 + 5 * 40
+            pygame.draw.rect(WIN, (50, 50, 50), (620, total_y, 300, 16), border_radius=6)
+            pygame.draw.rect(WIN, (40, 180, 40), (620, total_y, int(300 * (total_score / 1000)), 16), border_radius=6)
+            WIN.blit(FONT.render(f"Total: {total_score}/1000", True, (255, 255, 255)), (620, total_y - 22))
 
         pygame.draw.rect(WIN, (40, 140, 40), (80, 580, 140, 45), border_radius=8)
         WIN.blit(FONT.render("Back", True, (255, 255, 255)), (125, 592))
@@ -969,76 +549,77 @@ def selection_screen(credits, unlocked_cars, selected_car_model):
                 mx, my = pygame.mouse.get_pos()
                 for i, (name, col) in enumerate(chosen_colors):
                     bx = 120 + (i % 5) * 160
-                    by = 240 + (i // 5) * 120
+                    by = 230 + (i // 5) * 140
                     br = pygame.Rect(bx - 40, by - 40, 80, 80)
                     if br.collidepoint(mx, my):
                         player_choice = (name, col)
                 for i, d in enumerate(difficulties):
-                    bx = 150 + i * 180
-                    by = 380
-                    br = pygame.Rect(bx - 60, by - 20, 120, 40)
+                    bx = 120 + i * 240
+                    by = 480
+                    br = pygame.Rect(bx - 80, by - 25, 160, 50)
                     if br.collidepoint(mx, my):
                         difficulty = d
                 for i, u in enumerate(units):
-                    bx = 150 + i * 180
-                    by = 450
-                    br = pygame.Rect(bx - 60, by - 20, 120, 40)
+                    bx = 120 + i * 240
+                    by = 560
+                    br = pygame.Rect(bx - 80, by - 25, 160, 50)
                     if br.collidepoint(mx, my):
                         unit = u
-                shop_rect = pygame.Rect(WIDTH // 2 - 90, 520, 180, 50)
+                car_select_rect = pygame.Rect(WIDTH - 420, HEIGHT - 120, 220, 50)
+                shop_rect = pygame.Rect(WIDTH - 190, HEIGHT - 120, 180, 50)
+                if car_select_rect.collidepoint(mx, my):
+                    selected_car_model = car_selection_screen(credits, unlocked_cars, selected_car_model)
+                    selected_car_model = get_model_by_name(selected_car_model["name"])
+                    message = f"Current car: {selected_car_model['name']}"
                 if shop_rect.collidepoint(mx, my):
                     credits, unlocked_cars, selected_car_model = shop_screen(credits, unlocked_cars, selected_car_model)
                     selected_car_model = get_model_by_name(selected_car_model["name"])
                     message = f"Current car: {selected_car_model['name']}"
-                start_rect = pygame.Rect(WIDTH // 2 - 80, 585, 160, 50)
+                start_rect = pygame.Rect(620, 590, 420, 50)
                 if start_rect.collidepoint(mx, my) and player_choice:
                     return player_choice, difficulty, chosen_colors, unit, selected_car_model, credits, unlocked_cars
 
         WIN.fill((30, 30, 30))
         WIN.blit(BIG.render("Choose Your Race Setup", True, (255, 255, 255)), (WIDTH // 2 - 190, 30))
-        WIN.blit(FONT.render("Available colors (pick one):", True, (200, 200, 200)), (80, 210))
+        WIN.blit(FONT.render("Available colors (pick one):", True, (200, 200, 200)), (80, 160))
         for i, (name, col) in enumerate(chosen_colors):
             bx = 120 + (i % 5) * 160
-            by = 240 + (i // 5) * 120
+            by = 230 + (i // 5) * 140
             pygame.draw.circle(WIN, col, (bx, by), 30)
             txt = FONT.render(name.capitalize(), True, (255, 255, 255))
             WIN.blit(txt, (bx - txt.get_width() // 2, by + 40))
             if player_choice and player_choice[0] == name:
                 pygame.draw.circle(WIN, (255, 255, 255), (bx, by), 36, 3)
 
-        WIN.blit(FONT.render("Current car:", True, (200, 200, 200)), (80, 320))
-        WIN.blit(FONT.render(selected_car_model["name"], True, (255, 255, 255)), (180, 320))
-        draw_car_preview(WIN, 300, 340, selected_car_model["preview_color"], selected_car_model["name"])
+        WIN.blit(FONT.render("Current car:", True, (200, 200, 200)), (620, 140))
+        WIN.blit(FONT.render(selected_car_model["name"], True, (255, 255, 255)), (750, 140))
+        draw_car_preview(WIN, 740, 250, selected_car_model["preview_color"], selected_car_model["name"])
 
-        WIN.blit(FONT.render("Select Difficulty:", True, (200, 200, 200)), (80, 370))
+        WIN.blit(FONT.render("Select Difficulty:", True, (200, 200, 200)), (120, 430))
         for i, d in enumerate(difficulties):
-            bx = 150 + i * 180
-            by = 400
-            r = pygame.Rect(bx - 60, by - 20, 120, 40)
+            bx = 120 + i * 240
+            by = 520
+            r = pygame.Rect(bx - 80, by - 25, 160, 50)
             color = (100, 100, 100) if d != difficulty else (200, 100, 50)
             pygame.draw.rect(WIN, color, r)
             WIN.blit(FONT.render(d, True, (255, 255, 255)), (bx - 20, by - 10))
 
-        WIN.blit(FONT.render("Speed unit:", True, (200, 200, 200)), (80, 470))
+        WIN.blit(FONT.render("Speed unit:", True, (200, 200, 200)), (120, 550))
         for i, u in enumerate(units):
-            bx = 150 + i * 180
-            by = 500
-            r = pygame.Rect(bx - 60, by - 20, 120, 40)
+            bx = 120 + i * 240
+            by = 640
+            r = pygame.Rect(bx - 80, by - 25, 160, 50)
             color = (100, 100, 100) if u != unit else (200, 100, 50)
             pygame.draw.rect(WIN, color, r)
             WIN.blit(FONT.render(u, True, (255, 255, 255)), (bx - 20, by - 10))
 
         WIN.blit(FONT.render(f"Credits: {credits}", True, (255, 255, 255)), (WIDTH - 180, 25))
-        shop_rect = pygame.Rect(WIDTH // 2 - 90, 520, 180, 50)
+        car_select_rect = pygame.Rect(WIDTH - 420, HEIGHT - 120, 220, 50)
+        shop_rect = pygame.Rect(WIDTH - 190, HEIGHT - 120, 180, 50)
+        pygame.draw.rect(WIN, (120, 160, 240), car_select_rect)
         pygame.draw.rect(WIN, (180, 120, 40), shop_rect)
+        WIN.blit(FONT.render("Choose Car", True, (255, 255, 255)), (car_select_rect.x + 40, car_select_rect.y + 12))
         WIN.blit(FONT.render("Open Shop", True, (255, 255, 255)), (shop_rect.x + 35, shop_rect.y + 12))
-        if selected_car_model:
-            mini_x = WIDTH - 320
-            mini_y = 120
-            pygame.draw.rect(WIN, (35, 35, 35), (mini_x, mini_y, 260, 260), border_radius=16)
-            WIN.blit(FONT.render("Car Stats", True, (255, 255, 255)), (mini_x + 20, mini_y + 15))
-            for i, stat in enumerate(["Speed", "Handling", "Acceleration", "Launch", "Top Speed"]):
-                draw_stat_bar(WIN, mini_x + 20, mini_y + 55 + i * 42, stat, selected_car_model["stats"][stat], width=220)
 
         start_rect = pygame.Rect(WIDTH // 2 - 80, 585, 160, 50)
         pygame.draw.rect(WIN, (30, 160, 30) if player_choice else (80, 80, 80), start_rect)
@@ -1049,7 +630,6 @@ def selection_screen(credits, unlocked_cars, selected_car_model):
 
 
 def podium_screen(finish_order, earned_credits, credits):
-    # finish_order: list of (Car)
     clock = pygame.time.Clock()
     while True:
         clock.tick(FPS)
@@ -1064,16 +644,13 @@ def podium_screen(finish_order, earned_credits, credits):
         WIN.fill((30,30,30))
         WIN.blit(BIG.render("Race Results", True, (255,255,255)), (WIDTH//2 - 120, 30))
 
-        # Podium positions
         podium_x = WIDTH//2
         podium_y = HEIGHT//2 + 80
-        # heights
         heights = {"1st":120, "2nd":80, "3rd":60}
         positions = {"1st":(podium_x, podium_y - heights["1st"]),
                      "2nd":(podium_x + 140, podium_y - heights["2nd"]),
                      "3rd":(podium_x - 140, podium_y - heights["3rd"]) }
 
-        # draw podium blocks
         for label, (px, py) in positions.items():
             h = heights[label]
             w = 120
@@ -1081,7 +658,6 @@ def podium_screen(finish_order, earned_credits, credits):
             pygame.draw.rect(WIN, (200,200,200), r)
             WIN.blit(FONT.render(label, True, (0,0,0)), (r.centerx - 16, r.top - 24))
 
-        # draw top-3 cars on podium
         for i in range(min(3, len(finish_order))):
             car = finish_order[i]
             label = "1st" if i == 0 else ("2nd" if i == 1 else "3rd")
@@ -1122,7 +698,6 @@ def run_race(player_choice, difficulty, available_colors, unit, car_model, credi
     track_rect, inner_rect = draw_track(WIN)
     waypoints = generate_waypoints(track_rect)
 
-    # starting grid (4 cars)
     cars = []
     start_y = track_rect.top + 60
     pool = [c for c in available_colors if c[0] != player_choice[0]]
@@ -1178,7 +753,6 @@ def run_race(player_choice, difficulty, available_colors, unit, car_model, credi
 
         keys = pygame.key.get_pressed()
 
-        # update
         for c in cars:
             if c.finished:
                 continue
@@ -1205,34 +779,21 @@ def run_race(player_choice, difficulty, available_colors, unit, car_model, credi
             else:
                 c._hit_waypoint = False
 
-        # apply surface effects after movement
         for c in cars:
             c.apply_surface_effect(track_rect, inner_rect)
 
-        # check if race finished (all cars)
         if len(finish_order) >= len(cars):
             player_position = finish_order.index(player_car) + 1 if player_car in finish_order else len(cars)
             earned = calculate_reward(player_position, int((pygame.time.get_ticks() - race_start) / 1000), difficulty)
             return finish_order, earned
 
-        # draw
         draw_track(WIN)
-        # draw visible starting grid slots
-        start_slots = [WIDTH//2 - 90, WIDTH//2 - 30, WIDTH//2 + 30, WIDTH//2 + 90]
-        for i, slot_x in enumerate(start_slots):
-            pygame.draw.rect(WIN, (180, 180, 180), (slot_x - 20, start_y - 50, 40, 50), 2)
-            label = FONT.render(str(i + 1), True, (255, 255, 255))
-            WIN.blit(label, (slot_x - label.get_width()//2, start_y - 48))
-        # draw checkpoints at each turn
         for idx, wp in enumerate(waypoints):
-            color = (255, 255, 0) if idx == waypoint_idx[player_car] else (200, 200, 200)
-            pygame.draw.circle(WIN, color, (int(wp[0]), int(wp[1])), CHECKPOINT_DRAW_RADIUS)
-            pygame.draw.circle(WIN, (0, 0, 0), (int(wp[0]), int(wp[1])), CHECKPOINT_DRAW_RADIUS + 4, 3)
+            pygame.draw.circle(WIN, (255, 255, 0) if idx == waypoint_idx[player_car] else (200, 200, 200), (int(wp[0]), int(wp[1])), CHECKPOINT_DRAW_RADIUS)
 
         for c in cars:
             c.draw(WIN)
 
-        # HUD
         elapsed_time = pygame.time.get_ticks() - race_start
         minutes = elapsed_time // 60000
         seconds = (elapsed_time // 1000) % 60
